@@ -93,6 +93,10 @@ public class LibraryConsole {
     }
 
     public static AbstractBook borrowByName(int shelfId, String keyword) {
+        if(keyword != nowUser || isBanned.get(keyword)){
+            System.out.println("Error: Not Login or Banned");
+            return null;
+        }
         AbstractBook abstractBook = getBookshelf(shelfId).borrowByName(keyword);
         if(abstractBook == null) {
             System.out.println("Bookshelf No." + shelfId + " Borrow by Name failed.");
@@ -107,6 +111,10 @@ public class LibraryConsole {
 
     public static AbstractBook borrowByName(String keyword) {
         //用户只能按名字借书，故而不能访问库存。
+        if(nowUser == null || isBanned.get(nowUser)){
+            System.out.println("Error: Not Login or Banned");
+            return null;
+        }
         AbstractBook abstractBook = null, res = null;
         for(int i = shelfList.size() - 1; i >= 0; --i) {
             res = borrowByName(i, keyword);
@@ -165,6 +173,10 @@ public class LibraryConsole {
 
     public static void borrowAllBook(int shelfId) {
         // 用户借走所有书，故不考虑库存。
+        if(nowUser == null || isBanned.get(nowUser)){
+            System.out.println("Error: Not Login or Banned");
+            return;
+        }
         LinkedList<AbstractBook> nowList = shelfList.get(shelfId).borrowAllBook();
         System.out.println("Borrowed " + nowList.size() + " books.");
         for(AbstractBook i: nowList) {
@@ -174,11 +186,19 @@ public class LibraryConsole {
     }
 
     public static void returnById(int id) {
+        if(nowUser == null || isBanned.get(nowUser)){
+            System.out.println("Error: Not Login or Banned");
+            return;
+        }
         storage.insertBook(userShelfList.get(nowUser).borrowById(id));
         System.out.println("Returned By Id Successfully");
     }
 
     public static void returnByName(String keyword) {
+        if(nowUser == null || isBanned.get(nowUser)){
+            System.out.println("Error: Not Login or Banned");
+            return;
+        }
         storage.insertBook(userShelfList.get(nowUser).borrowByName(keyword));
         System.out.println("Returned By Name Successfully");
     }
