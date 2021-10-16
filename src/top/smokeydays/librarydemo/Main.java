@@ -35,6 +35,8 @@ public class Main {
         LoginSystem.userLogout("B");
         LoginSystem.adminLogin("admin");
         LibraryConsole.adminBan("B");
+
+        System.out.println("----------[ Final Result ]----------");
         List<AbstractBook> abstractBookList = LibraryConsole.getAllBookOnShelf();
         for(AbstractBook i: abstractBookList) {
             i.setAge(0.5);

@@ -93,10 +93,6 @@ public class LibraryConsole {
     }
 
     public static AbstractBook borrowByName(int shelfId, String keyword) {
-        if(keyword != nowUser || isBanned.get(keyword)){
-            System.out.println("Error: Not Login or Banned");
-            return null;
-        }
         AbstractBook abstractBook = getBookshelf(shelfId).borrowByName(keyword);
         if(abstractBook == null) {
             System.out.println("Bookshelf No." + shelfId + " Borrow by Name failed.");
@@ -112,6 +108,7 @@ public class LibraryConsole {
     public static AbstractBook borrowByName(String keyword) {
         //用户只能按名字借书，故而不能访问库存。
         if(nowUser == null || isBanned.get(nowUser)){
+            System.out.println(nowUser + " " + keyword);
             System.out.println("Error: Not Login or Banned");
             return null;
         }
